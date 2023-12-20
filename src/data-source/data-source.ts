@@ -12,5 +12,5 @@ export const appDataSource = new DataSource({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     logging: true,
-    entities: ['src/entity/*.ts', 'src/entity/*/*.ts']
+    entities: ['src/Entity/*.ts', 'src/Entity/*/*.ts']
 })
