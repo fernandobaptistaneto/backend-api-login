@@ -23,7 +23,7 @@ class UserController {
                 .where('users.username = :username and users.deleted::date = \'1970-01-01\'', { username: req.body.username })
                 .getOne()
 
-            if (!user) throw ('Usuário não encontrado!')
+            if (!user) throw ('Login Inválido!')
 
             if (user.password !== CommonHelper.createPasswordHash(req.body.password)) {
                 throw ('Password Inválido!')
