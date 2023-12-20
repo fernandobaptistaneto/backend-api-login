@@ -3,7 +3,7 @@ var jwt = require('jsonwebtoken')
 import * as cors from 'cors'
 import routes from './routes'
 import 'reflect-metadata'
-import { appDataSource } from './data-source/data-source'
+import { appDataSource } from './DataSource/DataSource'
 
 
 class App {

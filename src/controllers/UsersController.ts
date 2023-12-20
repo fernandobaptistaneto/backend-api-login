@@ -1,8 +1,11 @@
 import { Request, Response, Router } from 'express'
 import { Users } from '../Entity/Users'
-import { appDataSource } from "../data-source/data-source";
+import { appDataSource } from "../DataSource/DataSource";
 import CommonHelper from '../Helpers/CommonHelper';
+import { each } from 'lodash'
+const crypto = require('crypto')
 var jwt = require('jsonwebtoken')
+import * as moment from 'moment'
 
 
 class UserController {
@@ -26,7 +29,17 @@ class UserController {
                 throw ('Password Inválido!')
             }
 
-            return res.json({ message: 'ok', data: user }).status(200)
+            let objUser = each(user, (v,k) => {
+				if (k === 'password') delete user[k]
+			})
+
+            const refreshToken = `${objUser.id}-${moment().format('HHmmss')}-${crypto.randomBytes(24).toString('hex')}`
+
+            let token = jwt.sign({user:user, refreshToken}, process.env.SECRET, {
+				expiresIn: process.env.TIME_TOKEN_EXPIRES
+			})
+
+            return res.json({ auth: token })
 
         } catch (err) {
             return res.json({ message: err })
