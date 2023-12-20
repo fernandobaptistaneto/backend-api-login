@@ -29,15 +29,15 @@ class UserController {
                 throw ('Password Inválido!')
             }
 
-            let objUser = each(user, (v,k) => {
-				if (k === 'password') delete user[k]
-			})
+            let objUser = each(user, (v, k) => {
+                if (k === 'password') delete user[k]
+            })
 
             const refreshToken = `${objUser.id}-${moment().format('HHmmss')}-${crypto.randomBytes(24).toString('hex')}`
 
-            let token = jwt.sign({user:user, refreshToken}, process.env.SECRET, {
-				expiresIn: process.env.TIME_TOKEN_EXPIRES
-			})
+            let token = jwt.sign({ user: user, refreshToken }, process.env.SECRET, {
+                expiresIn: process.env.TIME_TOKEN_EXPIRES
+            })
 
             return res.json({ auth: token })
 
